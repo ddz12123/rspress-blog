@@ -13,6 +13,7 @@ export default defineConfig({
     dark: '/rspress-dark-logo.png',
   },
   logoText: '知识小屋',
+  outDir: 'dist',
   themeConfig: {
     enableScrollToTop: true,
     enableContentAnimation: true,
@@ -21,7 +22,7 @@ export default defineConfig({
       {
         icon: 'github',
         mode: 'link',
-        content: 'https://github.com/yourname/yourrepo',
+        content: 'https://github.com/ddz12123/rspress-blog',
       },
     ],
     outlineTitle: '本页导航',
@@ -32,6 +33,11 @@ export default defineConfig({
     searchPlaceholderText: '搜索笔记',
     searchNoResultsText: '没有找到相关内容',
     searchSuggestedQueryText: '试试更短的关键词',
+    editLink: {
+      docRepoBaseUrl:
+        'https://github.com/ddz12123/rspress-blog/blob/main/docs/',
+      text: '在 GitHub 上编辑此页',
+    },
     footer: {
       message: `
         <div class="flex flex-col items-center justify-center gap-2">
