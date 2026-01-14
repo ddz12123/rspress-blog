@@ -3,7 +3,7 @@ pageType: home
 
 hero:
   name: 知识小屋
-  text: 自用知识库
+  text: 知识库
   tagline: 记录常用方案与踩坑，随用随查
   actions:
     - theme: brand

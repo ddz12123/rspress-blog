@@ -140,7 +140,7 @@ import { withPwa } from '@vite-pwa/vitepress'
 // https://vitepress.dev/reference/site-config
 export default withPwa(defineConfig({
   title: "知识库",
-  description: "这是一个自用知识库",
+  description: "这是一个知识库",
   outDir: '../dist',
   head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   themeConfig: {
