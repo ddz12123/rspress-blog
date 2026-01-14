@@ -1,0 +1,22 @@
+[
+  {
+    "text": "首页",
+    "link": "/",
+    "activeMatch": "^/$"
+  },
+  {
+    "text": "前端",
+    "link": "/前端/uniapp/自定义tabbar",
+    "activeMatch": "^/(前端|%E5%89%8D%E7%AB%AF)/"
+  },
+  {
+    "text": "DevOps",
+    "link": "/devops/docker",
+    "activeMatch": "^/devops/"
+  },
+  {
+    "text": "工具",
+    "link": "/工具/常用网站",
+    "activeMatch": "^/(工具|%E5%B7%A5%E5%85%B7)/"
+  }
+]

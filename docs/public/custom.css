@@ -1,0 +1,8 @@
+/* 首页 Features 卡片居中优化 */
+.rspress-home-feature-card,
+div[class*="featureCard"] {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
