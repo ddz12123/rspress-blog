@@ -1,0 +1,47 @@
+name: Deploy to Aliyun (PNPM)
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 1. 核心新增：安装 PNPM
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9 # 这里建议写你本地使用的 pnpm 大版本 (如 8 或 9)
+
+      # 2. 修改：设置 Node 并开启 pnpm 缓存
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.13.0' # <--- 关键修改：设置 Node.js 版本
+          cache: 'pnpm' # <--- 关键修改：告诉它去找 pnpm-lock.yaml
+
+      # 3. 修改：使用 pnpm 命令安装和打包
+      - name: Install & Build
+        run: |
+          node -v
+          pnpm -v
+          pnpm install --frozen-lockfile # 类似 npm ci，严格按照 lock 文件安装
+          pnpm run build
+          ls -la dist/
+
+      # 4. 上传文件 (保持不变)
+      - name: Deploy to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: 'dist/*'
+          target: '/home/app/blog/dist/'
+          strip_components: 1
+
