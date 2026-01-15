@@ -9,8 +9,8 @@ export default defineConfig({
   description: '知识库：前端 / DevOps / 工具',
   icon: '/rspress-icon.png',
   logo: {
-    light: '/logo.png',
-    dark: '/logo.png',
+    light: '/logo-light.png',
+    dark: '/logo-dark.png',
   },
   logoText: '知识小屋',
   outDir: 'dist',
