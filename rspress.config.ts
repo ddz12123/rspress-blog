@@ -50,4 +50,8 @@ export default defineConfig({
     },
   },
   plugins: [mermaid()],
+  markdown:{
+    defaultWrapCode: true,
+    showLineNumbers: true,
+  }
 });
