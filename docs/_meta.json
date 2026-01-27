@@ -10,6 +10,11 @@
     "activeMatch": "^/(前端|%E5%89%8D%E7%AB%AF)/"
   },
   {
+    "text": "后端",
+    "link": "/后端/Golang/gin/工程化目录",
+    "activeMatch": "^/(后端|%E5%90%8E%E7%AB%AF)/"
+  },
+  {
     "text": "DevOps",
     "link": "/devops/docker",
     "activeMatch": "^/devops/"
