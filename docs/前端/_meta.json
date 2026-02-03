@@ -19,5 +19,12 @@
     "label": "SCSS",
     "collapsible": true,
     "collapsed": false
+  },
+  {
+    "type": "dir",
+    "name": "工程化",
+    "label": "工程化",
+    "collapsible": true,
+    "collapsed": false
   }
 ]
