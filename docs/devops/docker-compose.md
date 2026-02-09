@@ -2,7 +2,7 @@
 
 ## 一、常用命令
 
-```she
+```shell
 # 启动服务
 docker-compose up
 docker-compose up -d  # 后台运行
@@ -33,7 +33,7 @@ docker-compose exec [服务名] [命令]
 
 在根目录创建docker-compose.yml文件
 
-```she
+```shell
 # 自定义网络（核心：让 Nginx 和 Gin 服务在同一网络下，可通过服务名互相访问）
 networks:
   app-network:  # 网络名称，可自定义

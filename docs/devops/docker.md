@@ -2,7 +2,7 @@
 
 ## 一、镜像相关命令
 
-```she
+```shell
 # 搜索镜像
 docker search [镜像名]
 
@@ -33,7 +33,7 @@ docker build -t [镜像名]:[标签] [Dockerfile路径]
 
 ## 二、容器相关命令
 
-```she
+```shell
 # 运行容器
 docker run [选项] [镜像名]
 docker run -d --name mynginx -p 8080:80 nginx
@@ -88,7 +88,7 @@ docker cp [主机路径] [容器ID/名称]:[容器内路径]    # 从主机复�
 
 ## 三、网络管理
 
-```she
+```shell
 # 查看网络
 docker network ls
 

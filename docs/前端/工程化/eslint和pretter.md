@@ -79,6 +79,17 @@ npm install --save-dev eslint-config-prettier eslint-plugin-prettier
 }
 ```
 
+vue脚手架官方配置`.prettierrc.json`
+
+```json title='.prettierrc.json'
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "semi": false,
+  "singleQuote": true,
+  "printWidth": 100
+}
+```
+
 ### 3.3 ESLint 配置文件 (`eslint.config.js`)
 
 使用 ESM 语法 (`import`/`export`) 的扁平化配置。
@@ -157,5 +168,42 @@ export default tseslint.config(
   // 告诉 ESLint 插件使用扁平化配置 (对于旧版 VSCode 插件可能需要)
   "eslint.experimental.useFlatConfig": true
 }
+```
+
+### 4、使用 @vue/eslint-config-prettier/skip-formatting
+
+```ts title='eslint.config.ts'
+import { globalIgnores } from 'eslint/config'
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
+import pluginVue from 'eslint-plugin-vue'
+import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
+import pluginOxlint from 'eslint-plugin-oxlint'
+
+// To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
+// import { configureVueProject } from '@vue/eslint-config-typescript'
+// configureVueProject({ scriptLangs: ['ts', 'tsx'] })
+// More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
+
+export default defineConfigWithVueTs(
+  {
+    name: 'app/files-to-lint',
+    files: ['**/*.{vue,ts,mts,tsx}'],
+  },
+
+  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+
+  ...pluginVue.configs['flat/essential'],
+  vueTsConfigs.recommended,
+  {
+    rules: {
+      'vue/multi-word-component-names': 'off',
+    },
+  },
+
+  skipFormatting,
+
+  ...pluginOxlint.configs['flat/recommended'],
+)
+
 ```
 
