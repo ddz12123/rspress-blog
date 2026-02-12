@@ -2,6 +2,7 @@
     {
         "type": "dir",
         "name": "gin",
-        "label": "Gin"
+        "label": "Gin",
+        "collapsed": true
     }
 ]

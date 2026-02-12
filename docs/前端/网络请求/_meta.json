@@ -2,11 +2,13 @@
     {
         "type": "dir",
         "name": "TanStackQuery",
-        "label": "TanStackQuery"
+        "label": "TanStackQuery",
+        "collapsed": true
     },
     {
         "type": "dir",
         "name": "axios",
-        "label": "axios"
+        "label": "axios",
+        "collapsed": true
     }
 ]

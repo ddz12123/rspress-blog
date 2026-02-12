@@ -1,0 +1,38 @@
+[
+  {
+    "type": "dir",
+    "name": "js",
+    "label": "JavaScript",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "nextjs",
+    "label": "Next.js",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "scss",
+    "label": "SCSS",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "uniapp",
+    "label": "UniApp",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "工程化",
+    "label": "工程化",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "网络请求",
+    "label": "网络请求",
+    "collapsed": true
+  }
+]
