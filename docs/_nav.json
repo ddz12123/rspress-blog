@@ -20,6 +20,11 @@
     "activeMatch": "^/devops/"
   },
   {
+    "text": "AI",
+    "link": "/AI/lm-studio/换下载源",
+    "activeMatch": "^/AI/"
+  },
+  {
     "text": "工具",
     "link": "/工具/常用网站",
     "activeMatch": "^/(工具|%E5%B7%A5%E5%85%B7)/"

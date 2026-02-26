@@ -1,6 +1,5 @@
 import * as path from 'node:path';
-import mermaid from 'rspress-plugin-mermaid';
-import { defineConfig } from 'rspress/config';
+import { defineConfig } from '@rspress/core';
 
 export default defineConfig({
   root: path.join(__dirname, 'docs'),
@@ -25,18 +24,10 @@ export default defineConfig({
         content: 'https://github.com/ddz12123/rspress-blog',
       },
     ],
-    outlineTitle: '本页导航',
     lastUpdated: true,
-    lastUpdatedText: '最后更新',
-    prevPageText: '上一篇',
-    nextPageText: '下一篇',
-    searchPlaceholderText: '搜索笔记',
-    searchNoResultsText: '没有找到相关内容',
-    searchSuggestedQueryText: '试试更短的关键词',
     editLink: {
       docRepoBaseUrl:
         'https://github.com/ddz12123/rspress-blog/blob/main/docs/',
-      text: '在 GitHub 上编辑此页',
     },
     footer: {
       message: `
@@ -49,9 +40,8 @@ export default defineConfig({
         </div>`,
     },
   },
-  plugins: [mermaid()],
-  markdown:{
+  markdown: {
     defaultWrapCode: true,
     showLineNumbers: true,
-  }
+  },
 });
