@@ -4,5 +4,11 @@
     "name": "Golang",
     "label": "Golang",
     "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Python",
+    "label": "Python",
+    "collapsed": true
   }
 ]
