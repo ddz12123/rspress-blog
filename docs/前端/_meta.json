@@ -34,5 +34,11 @@
     "name": "网络请求",
     "label": "网络请求",
     "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "tools",
+    "label": "工具",
+    "collapsed": true
   }
 ]
