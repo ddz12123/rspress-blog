@@ -6,3 +6,14 @@ div[class*="featureCard"] {
   flex-direction: column;
   align-items: center;
 }
+
+/* 下拉导航父级高亮修复：
+ * Rspress 默认仅给纯 link 顶部菜单加 active class，
+ * 带 items 的菜单需要根据子项 active 状态反向高亮父级。
+ */
+@supports selector(:has(*)) {
+  .rp-nav-menu__item:has(.rp-hover-group__item--active)
+    > .rp-nav-menu__item__container {
+    color: var(--rp-c-brand);
+  }
+}

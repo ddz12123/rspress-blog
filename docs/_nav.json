@@ -6,13 +6,57 @@
   },
   {
     "text": "前端",
-    "link": "/前端/uniapp/自定义tabbar",
-    "activeMatch": "^/(前端|%E5%89%8D%E7%AB%AF)/"
+    "link": "/前端/js/Generator",
+    "activeMatch": "^/(前端|%E5%89%8D%E7%AB%AF)/",
+    "items": [
+      {
+        "text": "JavaScript",
+        "link": "/前端/js/Generator"
+      },
+      {
+        "text": "Next.js",
+        "link": "/前端/nextjs/部署"
+      },
+      {
+        "text": "SCSS",
+        "link": "/前端/scss/响应式断点"
+      },
+      {
+        "text": "UniApp",
+        "link": "/前端/uniapp/自定义tabbar"
+      },
+      {
+        "text": "工程化",
+        "link": "/前端/工程化/eslint和pretter"
+      },
+      {
+        "text": "网络请求",
+        "link": "/前端/网络请求/TanStackQuery/TanStackQuery的使用"
+      },
+      {
+        "text": "工具",
+        "link": "/前端/tools/git"
+      },
+      {
+        "text": "工具函数",
+        "link": "/前端/工具函数/防抖节流函数"
+      }
+    ]
   },
   {
     "text": "后端",
     "link": "/后端/Golang/gin/工程化目录",
-    "activeMatch": "^/(后端|%E5%90%8E%E7%AB%AF)/"
+    "activeMatch": "^/(后端|%E5%90%8E%E7%AB%AF)/",
+    "items": [
+      {
+        "text": "Golang",
+        "link": "/后端/Golang/gin/工程化目录"
+      },
+      {
+        "text": "Python",
+        "link": "/后端/Python/常用知识点"
+      }
+    ]
   },
   {
     "text": "DevOps",
@@ -22,7 +66,17 @@
   {
     "text": "AI",
     "link": "/AI/lm-studio/换下载源",
-    "activeMatch": "^/AI/"
+    "activeMatch": "^/AI/",
+    "items": [
+      {
+        "text": "lm-studio",
+        "link": "/AI/lm-studio/换下载源"
+      },
+      {
+        "text": "skills",
+        "link": "/AI/skills/常用skills"
+      }
+    ]
   },
   {
     "text": "工具",

@@ -4,5 +4,11 @@
     "name": "lm-studio",
     "label": "lm-studio",
     "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "skills",
+    "label": "skills",
+    "collapsed": true
   }
 ]

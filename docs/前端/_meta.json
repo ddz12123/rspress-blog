@@ -40,5 +40,11 @@
     "name": "tools",
     "label": "工具",
     "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "工具函数",
+    "label": "工具函数",
+    "collapsed": true
   }
 ]
