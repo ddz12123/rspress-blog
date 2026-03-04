@@ -24,6 +24,20 @@ export default defineConfig({
         mode: 'link',
         content: 'https://github.com/ddz12123/rspress-blog',
       },
+      {
+        icon: {
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.1-3.1a6 6 0 0 1-7.7 7.7l-6 6a2 2 0 1 1-2.8-2.8l6-6a6 6 0 0 1 7.7-7.7z"/></svg>',
+        },
+        mode: 'link',
+        content: 'http://47.119.182.242:8000/',
+      },
+      {
+        icon: {
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+        },
+        mode: 'link',
+        content: 'http://47.119.182.242:8001/',
+      },
     ],
     lastUpdated: true,
     editLink: {
