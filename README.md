@@ -13,17 +13,17 @@ npm install
 Start the dev server:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Build the website for production:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Preview the production build locally:
 
 ```bash
-npm run preview
+pnpm run preview
 ```
