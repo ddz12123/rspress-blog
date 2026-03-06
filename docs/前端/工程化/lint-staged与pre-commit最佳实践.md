@@ -12,13 +12,14 @@
 
 这就是 `lint-staged` 存在的意义：它只处理本次 **已暂存的文件**，让提交前检查更快、更聚焦。
 
-而在工程实践里，`lint-staged` 通常会和 `husky`、`commitlint` 组合使用：
+而在工程实践里，`lint-staged` 通常会和 `husky`、`commitlint` 组合使用；如果团队还想进一步统一提交信息录入体验，也可以再配上 `commitizen + cz-git`：
 
 - `husky`：管理 Git Hooks
 - `pre-commit`：在提交代码前触发质量检查
 - `lint-staged`：只对 staged files 执行格式化和校验
 - `commitlint`：校验提交信息是否符合规范
 - `commit-msg`：在提交信息写入后进行规范检查
+- `commitizen + cz-git`：用交互式向导生成规范提交信息
 
 这篇文档给一套适合团队项目直接落地的实践方案。
 
@@ -671,7 +672,214 @@ pnpm exec commitlint --edit "$1"
 - 文件结构清楚，适合团队共享
 - 职责划分明确，后续扩展也方便
 
-## 10. 验证步骤
+## 10. 结合 `commitizen + cz-git` 使用提交向导
+
+前面的方案解决的是“提交前检查代码”和“提交信息格式校验”。
+
+如果你们团队还希望开发者**更容易写出合规的提交信息**，可以在这条链路上再加一层提交向导：
+
+- `commitizen`：负责启动交互式提交流程
+- `cz-git`：作为 `commitizen` 的 adapter，负责具体的问答和格式化输出
+- `commitlint`：负责在 `commit-msg` 阶段做最终兜底校验
+
+这三个工具放在一起，各自职责会更清楚：
+
+- `commitizen + cz-git` 负责“帮助你写对”
+- `commitlint` 负责“兜底拦截写错的提交信息”
+
+### 10.1 推荐理解成“引导输入 + 最终校验”
+
+很多团队第一次接这套方案时，容易把 `cz-git` 和 `commitlint` 的职责混在一起。
+
+更准确的理解是：
+
+1. 开发者执行 `git cz`、`cz`，或者项目里约定好的脚本命令
+2. `commitizen` 调起 `cz-git`
+3. `cz-git` 通过交互式问题引导你填写 `type`、`scope`、`subject`
+4. 生成一条符合约定格式的提交信息
+5. Git 进入 `commit-msg` 阶段后，`commitlint` 再做一次校验
+
+这样做的好处是：
+
+- 对新人更友好，不需要死记 `Conventional Commits`
+- 团队提交流程更统一
+- 即使有人直接执行 `git commit -m`，`commitlint` 也还能兜底
+
+### 10.2 安装依赖
+
+如果你已经接入了上面的 `husky + lint-staged + commitlint`，现在只需要再补装两个依赖：
+
+```bash
+pnpm add -D commitizen cz-git
+```
+
+如果你希望全局直接使用 `git cz` 或 `cz`，还可以额外全局安装 `commitizen`：
+
+```bash
+npm install -g commitizen
+```
+
+但从团队项目治理角度，更推荐：
+
+- 项目内把 `commitizen`、`cz-git` 固定为本地依赖
+- 团队统一通过脚本命令触发
+
+这样不同成员不会因为全局版本差异导致体验不一致。
+
+### 10.3 在 `package.json` 里指定 `cz-git` 适配器
+
+根据 `cz-git` 官方文档，项目里需要告诉 `commitizen`：当前仓库使用哪个 adapter。
+
+可以在 `package.json` 里加上：
+
+```json
+{
+  "scripts": {
+    "prepare": "husky",
+    "cm": "cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  }
+}
+```
+
+这里建议把脚本名写成 `cm`，而不是 `commit`。原因是 `commitizen` 官方特别提醒过：如果项目里同时有 Hook 或 `precommit` 相关链路，脚本名叫 `commit` 时，某些 npm 脚本行为可能会让 `precommit` 被重复触发。
+
+接好以后，团队可以统一使用：
+
+```bash
+pnpm run cm
+```
+
+如果你本机全局装了 `commitizen`，也可以直接用：
+
+```bash
+git cz
+```
+
+或者：
+
+```bash
+cz
+```
+
+### 10.4 `cz-git` 的配置，优先放到 `commitlint.config.mjs`
+
+`cz-git` 官方更推荐：如果项目本身已经在用 `commitlint`，那就把交互提示相关配置直接写在 `commitlint` 配置文件里，避免把 `package.json` 塞得太重。
+
+最简单的接法是先保留你现有的 `commitlint` 配置，只额外补一个 `prompt` 字段：
+
+```js
+export default {
+  extends: ['@commitlint/config-conventional'],
+  prompt: {
+    useEmoji: false
+  }
+}
+```
+
+这意味着：
+
+- `commitlint` 继续负责校验提交信息
+- `cz-git` 读取同一份配置里的 `prompt` 选项
+
+如果后面你们团队想继续定制：
+
+- 可选的 `type` 列表
+- 是否启用 emoji
+- `scope` 的选择方式
+- issue / breaking change 的提示文案
+
+也建议继续优先放在 `commitlint.config.mjs` 里维护。
+
+### 10.5 一套和本文方案配套的最小落地配置
+
+如果你希望把“代码检查 + 提交信息向导 + 提交信息校验”一次接完整，最小版本可以是这样：
+
+`package.json`：
+
+```json
+{
+  "scripts": {
+    "prepare": "husky",
+    "cm": "cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  }
+}
+```
+
+`commitlint.config.mjs`：
+
+```js
+export default {
+  extends: ['@commitlint/config-conventional'],
+  prompt: {
+    useEmoji: false
+  }
+}
+```
+
+`.husky/pre-commit`：
+
+```sh
+pnpm exec lint-staged
+```
+
+`.husky/commit-msg`：
+
+```sh
+pnpm exec commitlint --edit "$1"
+```
+
+### 10.6 实际使用流程
+
+日常提交时，推荐团队这样操作：
+
+```bash
+git add .
+pnpm run cm
+```
+
+然后按交互提示依次选择或填写：
+
+- `type`，比如 `feat`、`fix`、`docs`
+- `scope`，比如 `blog`、`build`、`lint-staged`
+- `subject`，也就是一句简短说明
+
+提交时整条链路会按下面顺序执行：
+
+1. `commitizen` 启动交互式提交
+2. `cz-git` 生成提交信息
+3. `pre-commit` 执行 `lint-staged`
+4. `commit-msg` 执行 `commitlint`
+5. 全部通过后，提交完成
+
+### 10.7 团队落地时的两个建议
+
+第一，不要把 `commitizen + cz-git` 误当成 `commitlint` 的替代品。
+
+原因很简单：
+
+- 向导是“帮助你写”
+- 校验是“防止你绕过向导后写错”
+
+第二，不要强制把交互式提交绑进默认 `pre-commit`。
+
+更稳的做法是：
+
+- 团队约定平时优先用 `pnpm run cm` 或 `git cz`
+- 仓库继续保留 `commit-msg -> commitlint` 作为兜底
+
+这样开发体验和稳定性通常会更平衡。
+
+## 11. 验证步骤
 
 如果你是第一次落地这套方案，建议按下面的检查单走一遍：
 
@@ -684,9 +892,9 @@ pnpm exec commitlint --edit "$1"
 7. 故意提交一个格式有问题的文件，验证 `lint-staged` 会处理
 
 全部通过以后，这套链路才算真正接好了。
-## 11. 常见问题
+## 12. 常见问题
 
-### 11.1 为什么 `pre-commit` 很慢
+### 12.1 为什么 `pre-commit` 很慢
 
 常见原因：
 
@@ -699,13 +907,13 @@ pnpm exec commitlint --edit "$1"
 - `pre-commit` 只保留 staged files 相关检查
 - 慢任务移到 `pre-push` 或 CI
 
-### 11.2 为什么文件被改了但没有提交成功
+### 12.2 为什么文件被改了但没有提交成功
 
 这是因为某个任务修改了文件后，后续校验又失败了。默认情况下，`lint-staged` 会处理回滚和暂存状态保护。
 
 如果你看到了文件被格式化但提交被中断，通常不是异常，而是某个检查没通过。
 
-### 11.3 使用后提交失败，感觉代码丢失了，怎么还原
+### 12.3 使用后提交失败，感觉代码丢失了，怎么还原
 
 这个场景最常见的原因不是“代码真的没了”，而是 `lint-staged` 在失败时把工作区和暂存区状态回滚了，导致你以为刚才的修改被吞掉了。
 
@@ -767,7 +975,7 @@ git stash drop stash@{0}
 - IDE 的 Local History
 - 你自己是否有额外 stash、分支或 patch 备份
 
-### 11.4 为什么有的文件没被处理
+### 12.4 为什么有的文件没被处理
 
 先检查 3 件事：
 
@@ -775,14 +983,14 @@ git stash drop stash@{0}
 - glob 规则是否匹配到该文件
 - 对应工具本身是否忽略了该文件，例如 `.prettierignore`
 
-### 11.5 Windows 下有什么要注意的
+### 12.5 Windows 下有什么要注意的
 
 建议注意两点：
 
 - Hook 文件使用 `UTF-8` 编码
 - 手动创建 Hook 时，注意 `"$1"` 等参数写法不要被 shell 转义破坏
 
-## 12. 一页总结
+## 13. 一页总结
 
 `lint-staged + pre-commit` 的核心价值，不是“把所有检查都塞进提交前”，而是：
 
@@ -795,6 +1003,7 @@ git stash drop stash@{0}
 - `husky` 管理 Git Hooks
 - `pre-commit` 运行 `lint-staged`
 - `lint-staged` 只处理 staged files
+- `commitizen + cz-git` 负责引导生成提交信息
 - `commit-msg` 运行 `commitlint`
 - `pre-push` 或 CI 承担整仓类型检查、测试和构建
 
@@ -814,6 +1023,9 @@ git stash drop stash@{0}
 - [Husky Get Started](https://typicode.github.io/husky/get-started.html)
 - [commitlint Getting Started](https://commitlint.js.org/guides/getting-started.html)
 - [commitlint Local Setup](https://commitlint.js.org/guides/local-setup.html)
+- [Commitizen README](https://github.com/commitizen/cz-cli)
+- [cz-git Getting Started](https://cz-git.qbb.sh/guide/)
+- [cz-git Configure Template](https://cz-git.qbb.sh/config/)
 
 
 
