@@ -37,6 +37,12 @@
   },
   {
     "type": "dir",
+    "name": "面试",
+    "label": "面试",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
     "name": "tools",
     "label": "工具",
     "collapsed": true
