@@ -52,5 +52,11 @@
     "name": "工具函数",
     "label": "工具函数",
     "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "electron",
+    "label": "Electron",
+    "collapsed": true
   }
 ]
