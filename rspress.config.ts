@@ -1,6 +1,7 @@
 import * as path from 'node:path';
 import { defineConfig } from '@rspress/core';
 import { pluginTwoslash } from '@rspress/plugin-twoslash';
+import { pluginSitemap } from '@rspress/plugin-sitemap';
 
 export default defineConfig({
   root: path.join(__dirname, 'docs'),
@@ -59,5 +60,7 @@ export default defineConfig({
     defaultWrapCode: true,
     showLineNumbers: true,
   },
-   plugins: [pluginTwoslash()],
+   plugins: [pluginTwoslash(), pluginSitemap({
+      siteUrl: 'https://ainotehub.top',
+    })],
 });

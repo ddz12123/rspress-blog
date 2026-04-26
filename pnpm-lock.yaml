@@ -15,6 +15,9 @@ importers:
       '@eslint/js':
         specifier: ^9.39.1
         version: 9.39.2
+      '@rspress/plugin-sitemap':
+        specifier: ^2.0.9
+        version: 2.0.9(@rspress/core@2.0.3(@types/react@19.2.14)(core-js@3.42.0))
       '@rspress/plugin-twoslash':
         specifier: ^2.0.4
         version: 2.0.4(@rspress/core@2.0.3(@types/react@19.2.14)(core-js@3.42.0))(react@19.2.4)(typescript@5.9.3)
@@ -161,21 +164,25 @@ packages:
     resolution: {integrity: sha512-nTtYtklRZD4sb2RIFCF9YS8tZ/MjpqIBKVS3YIvdXcfHUdVfmQHTZGtwEuZGg6AxTC5L1hcvkYmTXCG0ok7auw==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rspack/binding-linux-arm64-musl@2.0.0-beta.0':
     resolution: {integrity: sha512-S2fshx0Rf7/XYwoMLaqFsVg4y+VAfHzubrczy8AW5xIs6UNC3eRLVTgShLerUPtF6SG+v6NQxQ9JI3vOo2qPOA==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rspack/binding-linux-x64-gnu@2.0.0-beta.0':
     resolution: {integrity: sha512-yx5Fk1gl7lfkvqcjolNLCNeduIs6C2alMsQ/kZ1pLeP5MPquVOYNqs6EcDPIp+fUjo3lZYtnJBiZKK+QosbzYg==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rspack/binding-linux-x64-musl@2.0.0-beta.0':
     resolution: {integrity: sha512-sBX4b2W0PgehlAVT224k0Q6GaH6t9HP+hBNDrbX/g6d0hfxZN56gm5NfOTOD1Rien4v7OBEejJ3/uFbm1WjwYQ==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rspack/binding-wasm32-wasi@2.0.0-beta.0':
     resolution: {integrity: sha512-o6OatnNvb4kCzXbCaomhENGaCsO3naIyAqqErew90HeAwa1lfY3NhRfDLeIyuANQ+xqFl34/R7n8q3ZDx3nd4Q==}
@@ -227,6 +234,12 @@ packages:
     resolution: {integrity: sha512-a+JJFiALqMxGJBqR38/lkN6tas42UF4jRIhu6RilC/3DdqpfqR8j6jjQFOmqoNKo6ZGXW2W+i1Pscn6drvoG3w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
+
+  '@rspress/plugin-sitemap@2.0.9':
+    resolution: {integrity: sha512-GTuXuySaeaazUZoUxdk2vZ8p0ehIgulPjCP9C7gDg6lIh5JGpUbcjG4def4tWHsxUoKp2rIwu/93bHwKb8T0Mw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    peerDependencies:
+      '@rspress/core': ^2.0.9
 
   '@rspress/plugin-twoslash@2.0.4':
     resolution: {integrity: sha512-i1b7HlOYRY+arMsNNRB58YIbfi3Xgr8rCeLMsgZ3GQu8oLcyZw80IxmpgFGne9KpJM+uqlAdhYq425ZhYQvZgg==}
@@ -1648,6 +1661,10 @@ snapshots:
       - core-js
       - supports-color
       - webpack-hot-middleware
+
+  '@rspress/plugin-sitemap@2.0.9(@rspress/core@2.0.3(@types/react@19.2.14)(core-js@3.42.0))':
+    dependencies:
+      '@rspress/core': 2.0.3(@types/react@19.2.14)(core-js@3.42.0)
 
   '@rspress/plugin-twoslash@2.0.4(@rspress/core@2.0.3(@types/react@19.2.14)(core-js@3.42.0))(react@19.2.4)(typescript@5.9.3)':
     dependencies:

@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@rspress/plugin-sitemap": "^2.0.9",
     "@rspress/plugin-twoslash": "^2.0.4",
     "@types/node": "^22.8.1",
     "@types/react": "^19.2.13",
