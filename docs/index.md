@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 🚀 开始阅读
-      link: /工具/常用网站
+      link: /前端/工程化/eslint和pretter
     - theme: alt
       text: 🐳 Docker 速查
       link: /devops/docker

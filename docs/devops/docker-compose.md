@@ -29,7 +29,7 @@ docker-compose exec [服务名] [命令]
 
 目录如下：
 
-![image-20260107142642507](https://img.ainotehub.top/图片/image-20260107142642507.png)
+![image-20260107142642507](/images/image-20260107142642507.png)
 
 在根目录创建docker-compose.yml文件
 
