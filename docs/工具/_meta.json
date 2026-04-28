@@ -1,1 +1,16 @@
-["常用网站", "图床", "VitePress配置"]
+[
+  {
+    "type": "dir",
+    "name": "常用资源",
+    "label": "常用资源",
+    "collapsed": true,
+    "items": ["常用网站", "图床"]
+  },
+  {
+    "type": "dir",
+    "name": "静态站工具",
+    "label": "静态站工具",
+    "collapsed": true,
+    "items": ["VitePress配置"]
+  }
+]

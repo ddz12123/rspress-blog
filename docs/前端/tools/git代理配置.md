@@ -1,22 +1,107 @@
 # Git 代理配置
 
-这篇笔记记录 Git 在 Windows / macOS / Linux 下常见的代理配置方式，重点区分：
-
-- **临时代理**：只对当前一次命令生效，不污染全局配置
-- **仓库级代理**：只对当前仓库生效
-- **全局代理**：对当前用户所有 Git 仓库生效
-
-如果你本地已经有代理（例如 Clash、v2rayN、sing-box）监听在 `127.0.0.1:7890`，最推荐优先使用 **临时代理**。
+本地已有代理（Clash/v2rayN/sing-box）监听 `127.0.0.1:7890`，不同场景的配置方式。
 
 
+## 一、推荐方式：单次命令临时代理
 
-## 1. 只对当前一次操作生效（推荐）
-
-### HTTP 代理
+不对全局和仓库造成污染，适合偶发使用。
 
 ```bash
+# HTTP代理
 git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 pull
+
+# SOCKS5代理
+git -c http.proxy=socks5://127.0.0.1:7890 -c https.proxy=socks5://127.0.0.1:7890 pull
+
+# SOCKS5 + DNS也走代理（某些网络环境更稳）
+git -c http.proxy=socks5h://127.0.0.1:7890 -c https.proxy=socks5h://127.0.0.1:7890 pull
 ```
+
+其他命令同理，把 `pull` 换成 `clone`、`fetch`、`push` 等即可。
+
+---
+
+## 二、全局代理（不推荐）
+
+所有仓库默认走代理，非长期稳定需求不建议开。
+
+```bash
+# 设置
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+
+# 查看
+git config --global --get http.proxy
+
+# 取消
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
+---
+
+## 三、仓库级代理
+
+只对当前仓库生效，其他仓库不受影响。
+
+```bash
+# 设置
+git config http.proxy http://127.0.0.1:7890
+git config https.proxy http://127.0.0.1:7890
+
+# 查看
+git config --get http.proxy
+
+# 取消
+git config --unset http.proxy
+git config --unset https.proxy
+```
+
+---
+
+## 四、当前终端会话临时生效
+
+### PowerShell
+```powershell
+$env:http_proxy="http://127.0.0.1:7890"
+$env:https_proxy="http://127.0.0.1:7890"
+git pull
+
+# 清理
+Remove-Item Env:http_proxy
+Remove-Item Env:https_proxy
+```
+
+### Bash（Linux/macOS/Git Bash）
+```bash
+export http_proxy=http://127.0.0.1:7890
+export https_proxy=http://127.0.0.1:7890
+git pull
+
+# 清理
+unset http_proxy https_proxy
+```
+
+---
+
+## 五、如何判断用 HTTP 还是 SOCKS5
+
+常见代理端口：
+- **Clash / mihomo**：`7890` 为 HTTP，`7891` 为 SOCKS5
+- **v2rayN**：看本地设置面板，通常 HTTP 和 SOCKS 同时提供
+
+不确定就先试 HTTP，不通再试 SOCKS5。
+
+---
+
+## 六、确认没有污染配置
+
+```bash
+git config --global --get http.proxy
+git config --get http.proxy
+```
+没有任何输出即为干净。
 
 这条命令的特点：
 

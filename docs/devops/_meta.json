@@ -1,1 +1,23 @@
-["docker", "docker-compose", "vue项目部署", "vitepress部署", "githubAction", "github配置ssh"]
+[
+  {
+    "type": "dir",
+    "name": "容器技术",
+    "label": "容器技术",
+    "collapsed": true,
+    "items": ["docker", "docker-compose"]
+  },
+  {
+    "type": "dir",
+    "name": "CI-CD",
+    "label": "CI/CD",
+    "collapsed": true,
+    "items": ["githubAction", "github配置ssh"]
+  },
+  {
+    "type": "dir",
+    "name": "常用项目部署",
+    "label": "常用项目部署",
+    "collapsed": true,
+    "items": ["vue项目部署", "vitepress部署", "allinssl-docker部署"]
+  }
+]

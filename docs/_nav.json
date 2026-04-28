@@ -64,8 +64,22 @@
   },
   {
     "text": "DevOps",
-    "link": "/devops/docker",
-    "activeMatch": "^/devops/"
+    "link": "/devops/容器技术/docker",
+    "activeMatch": "^/devops/",
+    "items": [
+      {
+        "text": "容器技术",
+        "link": "/devops/容器技术/docker"
+      },
+      {
+        "text": "CI/CD",
+        "link": "/devops/CI-CD/githubAction"
+      },
+      {
+        "text": "常用项目部署",
+        "link": "/devops/常用项目部署/vue项目部署"
+      }
+    ]
   },
   {
     "text": "AI",
@@ -84,7 +98,17 @@
   },
   {
     "text": "工具",
-    "link": "/工具/常用网站",
-    "activeMatch": "^/(工具|%E5%B7%A5%E5%85%B7)/"
+    "link": "/工具/常用资源/常用网站",
+    "activeMatch": "^/(工具|%E5%B7%A5%E5%85%B7)/",
+    "items": [
+      {
+        "text": "常用资源",
+        "link": "/工具/常用资源/常用网站"
+      },
+      {
+        "text": "静态站工具",
+        "link": "/工具/静态站工具/VitePress配置"
+      }
+    ]
   }
 ]
