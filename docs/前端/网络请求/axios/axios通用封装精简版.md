@@ -5,8 +5,8 @@
 ```ts title="src/utils/request.ts"
 import axios, {
   AxiosError,
-  AxiosRequestConfig,
-  InternalAxiosRequestConfig,
+  type AxiosRequestConfig,
+  type InternalAxiosRequestConfig,
 } from 'axios'
 
 /** 后端统一响应结构（按项目实际调整） */

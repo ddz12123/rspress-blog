@@ -223,6 +223,32 @@ export default [
 > - Vue 项目额外装 `eslint-plugin-vue` `@vue/eslint-config-typescript`
 > - 用法都是 `import xxx from 'xxx'` 然后放到 export 数组中即可
 
+#### Vue 项目新增
+
+```bash
+pnpm add -D eslint-plugin-vue @vue/eslint-config-typescript
+```
+
+```js
+import pluginVue from 'eslint-plugin-vue'
+import vueTsEslintConfig from '@vue/eslint-config-typescript'
+
+export default [
+  ...pluginVue.configs['flat/recommended'],
+  ...vueTsEslintConfig(),
+
+  {
+    parserOptions: {
+      parser: tseslint.parser,
+    },
+    'vue/multi-word-component-names': 'off',
+    'vue/require-default-prop': 'off',
+  },
+]
+```
+
+
+
 ### 3.4 添加 npm scripts
 
 在 `package.json` 的 `scripts` 里加上这 4 条：
