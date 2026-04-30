@@ -3,17 +3,148 @@ import { defineConfig } from '@rspress/core';
 import { pluginTwoslash } from '@rspress/plugin-twoslash';
 import { pluginSitemap } from '@rspress/plugin-sitemap';
 
+const siteUrl = 'https://ainotehub.top';
+const siteName = '知识小屋';
+const siteDescription =
+  '知识小屋，记录前端、后端、DevOps、AI 与效率工具的技术笔记、部署实践和常用配置。';
+
+function toPageUrl(routePath: string): string {
+  return routePath === '/' ? siteUrl : `${siteUrl}${routePath}.html`;
+}
+
+// 从路由路径中提取页面标题（取最后一段，去除 .html 后缀）
+function pageTitleFromRoute(routePath: string): string {
+  const segments = routePath.replace(/^\//, '').replace(/\/$/, '').split('/');
+  return segments[segments.length - 1].replace(/\.html$/, '');
+}
+
+function escapeHtml(str: string): string {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function generateBreadcrumbLD(routePath: string): string | null {
+  if (routePath === '/' || routePath === '/index') return null;
+
+  const segments = routePath.replace(/^\//, '').replace(/\/$/, '').split('/');
+  const itemListElement: Record<string, unknown>[] = [
+    { '@type': 'ListItem', position: 1, name: siteName, item: siteUrl },
+  ];
+
+  let current = '';
+  let pos = 2;
+  for (const seg of segments) {
+    current += `/${seg}`;
+    const name = seg.replace(/\.html$/, '');
+    itemListElement.push({
+      '@type': 'ListItem',
+      position: pos,
+      name,
+      item: `${siteUrl}${current}`,
+    });
+    pos++;
+  }
+
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement,
+  });
+}
+
+function generateArticleLD(
+  title: string,
+  description: string,
+  routePath: string,
+): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: description || siteDescription,
+    url: toPageUrl(routePath),
+    author: { '@type': 'Person', name: siteName },
+    publisher: { '@type': 'Organization', name: siteName, url: siteUrl },
+  });
+}
+
 export default defineConfig({
   root: path.join(__dirname, 'docs'),
   globalStyles: path.join(__dirname, 'docs/public/custom.css'),
-  title: '知识小屋',
-  description: '知识库：前端 / DevOps / 工具',
+  lang: 'zh-CN',
+  title: siteName,
+  description: siteDescription,
   icon: '/rspress-icon.png',
+  head: [
+    // 基础 SEO（百度仍然会参考 keywords）
+    [
+      'meta',
+      {
+        name: 'keywords',
+        content:
+          '知识小屋,前端,后端,DevOps,Docker,Electron,UniApp,Next.js,Python,Golang,技术笔记',
+      },
+    ],
+    ['meta', { name: 'author', content: siteName }],
+    ['meta', { name: 'robots', content: 'index,follow' }],
+    [
+      'link',
+      {
+        rel: 'sitemap',
+        type: 'application/xml',
+        href: `${siteUrl}/sitemap.xml`,
+      },
+    ],
+
+    // 百度适配：禁止转码，强制使用原页面
+    [
+      'meta',
+      {
+        'http-equiv': 'Cache-Control',
+        content: 'no-siteapp, no-transform',
+      },
+    ],
+    [
+      'meta',
+      {
+        'http-equiv': 'X-UA-Compatible',
+        content: 'IE=edge,chrome=1',
+      },
+    ],
+
+    // canonical + JSON-LD 结构化数据（作为原始 HTML 字符串返回）
+    (route): string => {
+      const pageUrl = toPageUrl(route.routePath);
+      const parts: string[] = [
+        `<link rel="canonical" href="${escapeHtml(pageUrl)}">`,
+      ];
+
+      // JSON-LD 面包屑
+      const breadcrumbLD = generateBreadcrumbLD(route.routePath);
+      if (breadcrumbLD) {
+        parts.push(
+          `<script type="application/ld+json">${breadcrumbLD}</script>`,
+        );
+      }
+
+      // JSON-LD Article（非首页，从路由路径提取标题）
+      if (route.routePath !== '/' && route.routePath !== '/index') {
+        parts.push(
+          `<script type="application/ld+json">${generateArticleLD(
+            pageTitleFromRoute(route.routePath),
+            siteDescription,
+            route.routePath,
+          )}</script>`,
+        );
+      }
+
+      return parts.join('\n');
+    },
+  ],
   logo: {
     light: '/logo-light.png',
     dark: '/logo-dark.png',
   },
-  logoText: '知识小屋',
+  logoText: siteName,
   outDir: 'dist',
   themeConfig: {
     enableScrollToTop: true,
@@ -60,7 +191,11 @@ export default defineConfig({
     defaultWrapCode: true,
     showLineNumbers: true,
   },
-   plugins: [pluginTwoslash(), pluginSitemap({
-      siteUrl: 'https://ainotehub.top',
-    })],
+  plugins: [
+    pluginTwoslash(),
+    pluginSitemap({
+      siteUrl,
+      defaultChangeFreq: 'daily',
+    }),
+  ],
 });
