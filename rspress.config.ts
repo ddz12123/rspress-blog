@@ -1,6 +1,5 @@
 import * as path from 'node:path';
 import { defineConfig } from '@rspress/core';
-import { pluginTwoslash } from '@rspress/plugin-twoslash';
 import { pluginSitemap } from '@rspress/plugin-sitemap';
 
 const siteUrl = 'https://ainotehub.top';
@@ -70,7 +69,8 @@ function generateArticleLD(
 export default defineConfig({
   root: path.join(__dirname, 'docs'),
   globalStyles: path.join(__dirname, 'docs/public/custom.css'),
-  lang: 'zh-CN',
+  // Rspress 内置主题文案使用 zh 作为中文 key，单中文站点直接用 zh 即可。
+  lang: 'zh',
   title: siteName,
   description: siteDescription,
   icon: '/rspress-icon.png',
@@ -192,7 +192,6 @@ export default defineConfig({
     showLineNumbers: true,
   },
   plugins: [
-    pluginTwoslash(),
     pluginSitemap({
       siteUrl,
       defaultChangeFreq: 'daily',
