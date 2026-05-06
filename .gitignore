@@ -12,6 +12,8 @@ doc_build/
 .vscode/*
 !.vscode/extensions.json
 .idea
-.codex/
+.codex
 dist.zip
 .obsidian/*
+.claude/
+

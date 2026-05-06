@@ -13,6 +13,12 @@
   },
   {
     "type": "dir",
+    "name": "typeScript",
+    "label": "TypeScript",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
     "name": "scss",
     "label": "SCSS",
     "collapsed": true
