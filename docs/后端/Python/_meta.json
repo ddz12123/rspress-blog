@@ -1,5 +1,10 @@
 [
-    "常用知识点",
+    {
+        "type": "dir",
+        "name": "知识点",
+        "label": "知识点",
+        "collapsed": true
+    },
     "虚拟环境",
     "uv",
     {
