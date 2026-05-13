@@ -10,5 +10,19 @@
     "name": "skills",
     "label": "skills",
     "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "claude-code",
+    "label": "Claude Code",
+    "collapsed": true,
+    "items": ["常用命令"]
+  },
+  {
+    "type": "dir",
+    "name": "codex",
+    "label": "Codex",
+    "collapsed": true,
+    "items": ["常用命令"]
   }
 ]
