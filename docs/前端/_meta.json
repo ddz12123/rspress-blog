@@ -64,5 +64,11 @@
     "name": "electron",
     "label": "Electron",
     "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "vue",
+    "label": "Vue",
+    "collapsed": true
   }
 ]
