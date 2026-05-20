@@ -379,7 +379,7 @@ print(settings.DATABASE_URL)
 
 `.env` 文件：
 
-```env
+```ini
 APP_NAME=FastAPI Admin
 DEBUG=true
 DATABASE_URL=mongodb://localhost:27017
