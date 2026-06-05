@@ -13,11 +13,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10   
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '25.2.1' # 选择适合的 Node.js 版本
+          cache: 'pnpm'
       
       - name: Install dependencies
         run: pnpm install
