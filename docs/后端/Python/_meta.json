@@ -12,5 +12,11 @@
         "name": "fastapi",
         "label": "FastAPI",
         "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "SQLAlchemy",
+        "label": "SQLAlchemy",
+        "collapsed": true
     }
 ]

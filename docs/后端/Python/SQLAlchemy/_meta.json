@@ -1,0 +1,27 @@
+[
+    {
+        "type": "dir",
+        "name": "01-快速入门",
+        "label": "快速入门"
+    },
+    {
+        "type": "dir",
+        "name": "02-模型定义",
+        "label": "模型定义"
+    },
+    {
+        "type": "dir",
+        "name": "03-增删改查CRUD",
+        "label": "增删改查 CRUD"
+    },
+    {
+        "type": "dir",
+        "name": "04-表关系",
+        "label": "表关系"
+    },
+    {
+        "type": "dir",
+        "name": "05-Alembic迁移",
+        "label": "Alembic 迁移"
+    }
+]
