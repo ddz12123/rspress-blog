@@ -1,0 +1,33 @@
+[
+    "00-阅读指南",
+    {
+        "type": "dir",
+        "name": "01-快速入门",
+        "label": "01-快速入门",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "02-常用数据类型",
+        "label": "02-常用数据类型",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "03-过期淘汰和缓存",
+        "label": "03-过期淘汰和缓存",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "04-事务发布订阅和Stream",
+        "label": "04-事务发布订阅和 Stream",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "05-持久化安全和后端使用",
+        "label": "05-持久化安全和后端使用",
+        "collapsed": true
+    }
+]

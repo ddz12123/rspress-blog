@@ -1,0 +1,17 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-认识Gin",
+        "label":  "认识Gin"
+    },
+    {
+        "type":  "file",
+        "name":  "02-安装和第一个接口",
+        "label":  "安装和第一个接口"
+    },
+    {
+        "type":  "file",
+        "name":  "03-ginContext上下文",
+        "label":  "ginContext上下文"
+    }
+]

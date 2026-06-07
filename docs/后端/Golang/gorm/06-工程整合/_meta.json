@@ -1,0 +1,12 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-连接池和配置",
+        "label":  "连接池和配置"
+    },
+    {
+        "type":  "file",
+        "name":  "02-在Gin中使用GORM",
+        "label":  "在Gin中使用GORM"
+    }
+]

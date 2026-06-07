@@ -1,0 +1,22 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-变量和常量",
+        "label":  "变量和常量"
+    },
+    {
+        "type":  "file",
+        "name":  "02-基本数据类型",
+        "label":  "基本数据类型"
+    },
+    {
+        "type":  "file",
+        "name":  "03-if-for-switch流程控制",
+        "label":  "if-for-switch流程控制"
+    },
+    {
+        "type":  "file",
+        "name":  "04-函数",
+        "label":  "函数"
+    }
+]

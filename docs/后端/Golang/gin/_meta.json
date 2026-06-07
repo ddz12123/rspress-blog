@@ -1,0 +1,34 @@
+[
+    "00-阅读指南",
+    {
+        "type": "dir",
+        "name": "01-快速入门",
+        "label": "01-快速入门",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "02-路由和参数",
+        "label": "02-路由和参数",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "03-请求绑定和校验",
+        "label": "03-请求绑定和校验",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "04-响应和中间件",
+        "label": "04-响应和中间件",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "05-测试和部署准备",
+        "label": "05-测试和部署准备",
+        "collapsed": true
+    },
+    "工程化目录"
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-持久化和内存策略",
+        "label":  "持久化和内存策略"
+    },
+    {
+        "type":  "file",
+        "name":  "02-安全配置和排查命令",
+        "label":  "安全配置和排查命令"
+    },
+    {
+        "type":  "file",
+        "name":  "03-Go项目使用Redis",
+        "label":  "Go项目使用Redis"
+    }
+]

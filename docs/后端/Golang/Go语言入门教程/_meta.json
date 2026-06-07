@@ -1,0 +1,51 @@
+[
+    "00-阅读指南",
+    {
+        "type": "dir",
+        "name": "01-环境准备",
+        "label": "01-环境准备",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "02-基础语法",
+        "label": "02-基础语法",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "03-复合类型",
+        "label": "03-复合类型",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "04-方法接口和错误处理",
+        "label": "04-方法接口和错误处理",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "05-包模块和工程组织",
+        "label": "05-包模块和工程组织",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "06-并发入门",
+        "label": "06-并发入门",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "07-标准库常用能力",
+        "label": "07-标准库常用能力",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "08-测试和调试",
+        "label": "08-测试和调试",
+        "collapsed": true
+    }
+]

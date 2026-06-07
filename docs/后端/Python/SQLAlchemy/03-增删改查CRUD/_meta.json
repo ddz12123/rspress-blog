@@ -1,0 +1,17 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-Pydantic模型",
+        "label":  "Pydantic模型"
+    },
+    {
+        "type":  "file",
+        "name":  "02-CRUD操作",
+        "label":  "CRUD操作"
+    },
+    {
+        "type":  "file",
+        "name":  "03-路由整合",
+        "label":  "路由整合"
+    }
+]

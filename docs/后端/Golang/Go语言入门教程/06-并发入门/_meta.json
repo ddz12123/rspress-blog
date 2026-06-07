@@ -1,0 +1,22 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-goroutine",
+        "label":  "goroutine"
+    },
+    {
+        "type":  "file",
+        "name":  "02-channel",
+        "label":  "channel"
+    },
+    {
+        "type":  "file",
+        "name":  "03-select和context",
+        "label":  "select和context"
+    },
+    {
+        "type":  "file",
+        "name":  "04-sync包常用工具",
+        "label":  "sync包常用工具"
+    }
+]

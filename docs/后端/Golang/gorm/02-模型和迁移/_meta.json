@@ -1,0 +1,12 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-定义模型",
+        "label":  "定义模型"
+    },
+    {
+        "type":  "file",
+        "name":  "02-AutoMigrate自动迁移",
+        "label":  "AutoMigrate自动迁移"
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-APIRouter路由拆分",
+        "label":  "APIRouter路由拆分"
+    },
+    {
+        "type":  "file",
+        "name":  "02-依赖注入",
+        "label":  "依赖注入"
+    },
+    {
+        "type":  "file",
+        "name":  "03-配置管理",
+        "label":  "配置管理"
+    }
+]

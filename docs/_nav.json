@@ -11,7 +11,7 @@
   },
   {
     "text": "后端",
-    "link": "/后端/Golang/gin/工程化目录",
+    "link": "/后端/MySql/00-阅读指南",
     "activeMatch": "^/(后端|%E5%90%8E%E7%AB%AF)/"
   },
   {

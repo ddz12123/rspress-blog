@@ -7,6 +7,24 @@
   },
   {
     "type": "dir",
+    "name": "MySql",
+    "label": "MySQL",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "MongoDB",
+    "label": "MongoDB",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Redis",
+    "label": "Redis",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
     "name": "Python",
     "label": "Python",
     "collapsed": true

@@ -1,0 +1,12 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-认识Redis",
+        "label":  "认识Redis"
+    },
+    {
+        "type":  "file",
+        "name":  "02-安装启动和连接",
+        "label":  "安装启动和连接"
+    }
+]

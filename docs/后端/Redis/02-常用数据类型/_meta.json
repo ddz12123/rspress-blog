@@ -1,0 +1,22 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-String字符串",
+        "label":  "String字符串"
+    },
+    {
+        "type":  "file",
+        "name":  "02-Hash对象",
+        "label":  "Hash对象"
+    },
+    {
+        "type":  "file",
+        "name":  "03-List和Set",
+        "label":  "List和Set"
+    },
+    {
+        "type":  "file",
+        "name":  "04-SortedSet排行榜",
+        "label":  "SortedSet排行榜"
+    }
+]

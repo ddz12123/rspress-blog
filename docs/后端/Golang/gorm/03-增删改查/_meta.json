@@ -1,0 +1,17 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-Create新增数据",
+        "label":  "Create新增数据"
+    },
+    {
+        "type":  "file",
+        "name":  "02-Query查询数据",
+        "label":  "Query查询数据"
+    },
+    {
+        "type":  "file",
+        "name":  "03-Update和Delete",
+        "label":  "Update和Delete"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-package和import",
+        "label":  "package和import"
+    },
+    {
+        "type":  "file",
+        "name":  "02-go-modules依赖管理",
+        "label":  "go-modules依赖管理"
+    },
+    {
+        "type":  "file",
+        "name":  "03-常见项目目录结构",
+        "label":  "常见项目目录结构"
+    },
+    {
+        "type":  "file",
+        "name":  "04-配置和环境变量",
+        "label":  "配置和环境变量"
+    }
+]

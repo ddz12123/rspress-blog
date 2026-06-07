@@ -1,0 +1,17 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-BSON和常用数据类型",
+        "label":  "BSON和常用数据类型"
+    },
+    {
+        "type":  "file",
+        "name":  "02-文档结构设计",
+        "label":  "文档结构设计"
+    },
+    {
+        "type":  "file",
+        "name":  "03-内嵌和引用",
+        "label":  "内嵌和引用"
+    }
+]

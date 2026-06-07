@@ -1,0 +1,22 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-insert新增数据",
+        "label":  "insert新增数据"
+    },
+    {
+        "type":  "file",
+        "name":  "02-find查询基础",
+        "label":  "find查询基础"
+    },
+    {
+        "type":  "file",
+        "name":  "03-条件排序分页和投影",
+        "label":  "条件排序分页和投影"
+    },
+    {
+        "type":  "file",
+        "name":  "04-update和delete",
+        "label":  "update和delete"
+    }
+]

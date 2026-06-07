@@ -1,8 +1,20 @@
 [
     {
         "type": "dir",
+        "name": "Go语言入门教程",
+        "label": "Go 语言入门教程",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
         "name": "gin",
         "label": "Gin",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "gorm",
+        "label": "GORM",
         "collapsed": true
     }
 ]

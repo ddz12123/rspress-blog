@@ -1,0 +1,39 @@
+[
+    "00-阅读指南",
+    {
+        "type": "dir",
+        "name": "01-快速入门",
+        "label": "01-快速入门",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "02-模型和迁移",
+        "label": "02-模型和迁移",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "03-增删改查",
+        "label": "03-增删改查",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "04-查询进阶",
+        "label": "04-查询进阶",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "05-关联关系",
+        "label": "05-关联关系",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "06-工程整合",
+        "label": "06-工程整合",
+        "collapsed": true
+    }
+]

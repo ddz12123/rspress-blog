@@ -1,0 +1,33 @@
+[
+    "00-阅读指南",
+    {
+        "type": "dir",
+        "name": "01-快速入门",
+        "label": "01-快速入门",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "02-请求与响应",
+        "label": "02-请求与响应",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "03-项目组织",
+        "label": "03-项目组织",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "04-常用功能",
+        "label": "04-常用功能",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "05-企业级项目架构",
+        "label": "05-企业级项目架构",
+        "collapsed": true
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-认识FastAPI",
+        "label":  "认识FastAPI"
+    },
+    {
+        "type":  "file",
+        "name":  "02-安装与第一个接口",
+        "label":  "安装与第一个接口"
+    },
+    {
+        "type":  "file",
+        "name":  "03-交互式文档",
+        "label":  "交互式文档"
+    }
+]

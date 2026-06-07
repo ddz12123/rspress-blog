@@ -1,0 +1,17 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-认识MySQL和数据库",
+        "label":  "认识MySQL和数据库"
+    },
+    {
+        "type":  "file",
+        "name":  "02-安装和连接MySQL",
+        "label":  "安装和连接MySQL"
+    },
+    {
+        "type":  "file",
+        "name":  "03-创建第一个数据库和表",
+        "label":  "创建第一个数据库和表"
+    }
+]

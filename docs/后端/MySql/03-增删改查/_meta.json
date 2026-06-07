@@ -1,0 +1,22 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-INSERT新增数据",
+        "label":  "INSERT新增数据"
+    },
+    {
+        "type":  "file",
+        "name":  "02-SELECT查询基础",
+        "label":  "SELECT查询基础"
+    },
+    {
+        "type":  "file",
+        "name":  "03-WHERE排序分页",
+        "label":  "WHERE排序分页"
+    },
+    {
+        "type":  "file",
+        "name":  "04-UPDATE和DELETE",
+        "label":  "UPDATE和DELETE"
+    }
+]

@@ -1,0 +1,33 @@
+[
+    "00-阅读指南",
+    {
+        "type": "dir",
+        "name": "01-快速入门",
+        "label": "01-快速入门",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "02-库表设计",
+        "label": "02-库表设计",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "03-增删改查",
+        "label": "03-增删改查",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "04-多表查询",
+        "label": "04-多表查询",
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "05-索引事务和安全",
+        "label": "05-索引事务和安全",
+        "collapsed": true
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-认识MongoDB和文档数据库",
+        "label":  "认识MongoDB和文档数据库"
+    },
+    {
+        "type":  "file",
+        "name":  "02-安装和连接MongoDB",
+        "label":  "安装和连接MongoDB"
+    },
+    {
+        "type":  "file",
+        "name":  "03-数据库集合和文档",
+        "label":  "数据库集合和文档"
+    }
+]

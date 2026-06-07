@@ -1,0 +1,22 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-数组和切片",
+        "label":  "数组和切片"
+    },
+    {
+        "type":  "file",
+        "name":  "02-map字典",
+        "label":  "map字典"
+    },
+    {
+        "type":  "file",
+        "name":  "03-结构体struct",
+        "label":  "结构体struct"
+    },
+    {
+        "type":  "file",
+        "name":  "04-指针",
+        "label":  "指针"
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-认识GORM",
+        "label":  "认识GORM"
+    },
+    {
+        "type":  "file",
+        "name":  "02-安装和连接MySQL",
+        "label":  "安装和连接MySQL"
+    }
+]

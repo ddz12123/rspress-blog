@@ -1,0 +1,22 @@
+[
+    {
+        "type":  "file",
+        "name":  "01-go语言是什么",
+        "label":  "go语言是什么"
+    },
+    {
+        "type":  "file",
+        "name":  "02-安装go和配置环境",
+        "label":  "安装go和配置环境"
+    },
+    {
+        "type":  "file",
+        "name":  "03-第一个go程序",
+        "label":  "第一个go程序"
+    },
+    {
+        "type":  "file",
+        "name":  "04-go命令和模块初始化",
+        "label":  "go命令和模块初始化"
+    }
+]
