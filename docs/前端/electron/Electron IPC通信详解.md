@@ -1,93 +1,42 @@
 # Electron IPC 通信详解
 
-> 进程间通信（IPC）是 Electron 开发的核心，搞懂它才能让主进程和渲染进程配合干活
+> IPC = 进程间通信。主进程和渲染进程是隔离的，想交流就得通过 IPC。
 
-## 先搞清楚两个角色
+## 先分清两个进程
 
-Electron 应用有两个进程，理解 IPC 之前必须先分清它们：
+| 进程 | 干什么的 | 能做什么 |
+| --- | --- | --- |
+| **主进程 (Main)** | 应用大管家 | 读写文件、调系统 API、创建窗口、托盘、菜单 |
+| **渲染进程 (Renderer)** | 每个窗口一个，管页面 | DOM 操作、用户交互、发请求给主进程 |
 
-| 进程 | 职责 | 能做的事 |
-|------|------|----------|
-| **主进程 (Main)** | 应用入口，管理窗口、系统API | 操作文件、调用系统API、创建窗口 |
-| **渲染进程 (Renderer)** | 每个窗口一个，负责页面UI | DOM操作、用户交互、页面渲染 |
+**重点**：渲染进程跑在浏览器环境，不能直接碰 Node.js 和系统资源。想用？通过 IPC 让主进程帮忙。
 
-关键点：**渲染进程不能直接访问 Node.js API 和系统资源**，想干这些事必须通过 IPC 请主进程帮忙。
+## 为什么需要 preload？
 
-## 三种通信模式
+如果直接在渲染进程里 `require('electron')` 用 `ipcRenderer`：
 
-```
-┌─────────────┐                    ┌─────────────┐
-│  渲染进程    │  ── invoke ──→    │  主进程      │
-│  (Renderer) │  ←── return ──    │  (Main)      │
-│             │                    │              │
-│             │  ── send ────→    │              │
-│             │                    │              │
-│             │  ←── send ────    │              │
-└─────────────┘                    └─────────────┘
-```
+1. **不安全**：网页里的恶意脚本也能调 IPC
+2. **Electron 默认禁止**：`contextIsolation: true`、`nodeIntegration: false`
 
-### 模式一：渲染 → 主进程（双向，推荐）
+**解决方案**：用 preload 做中间人，只暴露你允许的方法：
 
-`ipcRenderer.invoke()` + `ipcMain.handle()` —— 最常用的模式，渲染进程发请求，主进程处理后返回结果。
-
-### 模式二：渲染 → 主进程（单向）
-
-`ipcRenderer.send()` + `ipcMain.on()` —— 只管发，不等回复。适合通知类场景。
-
-### 模式三：主进程 → 渲染进程
-
-`webContents.send()` + `ipcRenderer.on()` —— 主进程主动推送消息给渲染进程。
-
-## 安全架构：preload + contextBridge
-
-直接在渲染进程里用 `ipcRenderer` 是不安全的。正确做法是通过 **预加载脚本（preload）** 暴露有限的 API：
-
-```
-渲染进程 ──→ window.electronAPI ──→ preload.js ──→ ipcRenderer ──→ 主进程
+```text
+渲染进程                    preload.js                    主进程
+    │                          │                            │
+    │  window.electronAPI.xxx  │                            │
+    │  ─────────────────────→  │  ipcRenderer.invoke()      │
+    │                          │  ────────────────────────→  │
+    │                          │  ←────────────────────────  │
+    │  ←─────────────────────  │                            │
 ```
 
-### preload.js
+## 三种通信方式
 
-```js
-const { contextBridge, ipcRenderer } = require('electron')
+### 1. invoke/handle —— 双向通信 ⭐ 最常用
 
-// 只暴露需要的方法，不要把整个 ipcRenderer 暴露出去
-contextBridge.exposeInMainWorld('electronAPI', {
-  // 双向通信
-  getData: (params) => ipcRenderer.invoke('get-data', params),
+**场景**：渲染进程需要从主进程拿数据或执行操作，还要等结果回来。
 
-  // 单向发送
-  sendMessage: (msg) => ipcRenderer.send('send-message', msg),
-
-  // 监听主进程推送
-  onUpdate: (callback) => ipcRenderer.on('update-info', (_event, data) => callback(data))
-})
-```
-
-### main.js（主进程）
-
-```js
-const { ipcMain, BrowserWindow } = require('electron')
-const path = require('path')
-
-function createWindow() {
-  const win = new BrowserWindow({
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      // 这两个必须保持 false，安全底线
-      contextIsolation: true,
-      nodeIntegration: false
-    }
-  })
-  win.loadFile('index.html')
-}
-```
-
-## 实战：三种模式完整示例
-
-### 1. invoke / handle（双向通信）
-
-最推荐的方式，渲染进程发请求，主进程处理后返回结果，基于 Promise。
+**例子**：读取文件、获取版本号、调用系统 API
 
 **主进程 main.js：**
 
@@ -95,7 +44,7 @@ function createWindow() {
 const { ipcMain } = require('electron')
 const fs = require('fs/promises')
 
-// handle 注册处理器，返回值会作为 invoke 的 Promise 结果
+// 注册处理器，返回值就是渲染进程拿到的结果
 ipcMain.handle('read-file', async (_event, filePath) => {
   try {
     const content = await fs.readFile(filePath, 'utf-8')
@@ -113,36 +62,37 @@ ipcMain.handle('get-app-version', () => {
 **preload.js：**
 
 ```js
+const { contextBridge, ipcRenderer } = require('electron')
+
 contextBridge.exposeInMainWorld('electronAPI', {
   readFile: (filePath) => ipcRenderer.invoke('read-file', filePath),
   getAppVersion: () => ipcRenderer.invoke('get-app-version')
 })
 ```
 
-**渲染进程（页面JS）：**
+**渲染进程（页面 JS）：**
 
 ```js
-// 像调普通函数一样用，返回 Promise
+// 像调普通函数一样，返回 Promise
 const result = await window.electronAPI.readFile('/path/to/file.txt')
 if (result.success) {
   console.log(result.data)
 }
 
 const version = await window.electronAPI.getAppVersion()
-console.log('版本号:', version)
 ```
 
-### 2. send / on（单向通信）
+### 2. send/on —— 单向通信
 
-渲染进程只管发，不等回复。适合日志上报、触发操作等不需要返回值的场景。
+**场景**：只管发，不等回复。适合日志、通知、触发操作。
+
+**例子**：记录日志、窗口最小化
 
 **主进程 main.js：**
 
 ```js
 ipcMain.on('log-message', (_event, level, message) => {
   console.log(`[${level}] ${message}`)
-  // 如果真需要回复，可以用 event.reply
-  // _event.reply('log-ack', 'received')
 })
 
 ipcMain.on('window-minimize', (event) => {
@@ -166,25 +116,22 @@ window.electronAPI.logMessage('info', '用户点击了按钮')
 window.electronAPI.minimizeWindow()
 ```
 
-### 3. 主进程 → 渲染进程（主动推送）
+### 3. 主进程主动推送
 
-主进程有消息要通知渲染进程时使用，比如下载进度、系统通知。
+**场景**：主进程有新消息要告诉渲染进程。
+
+**例子**：下载进度、系统通知、后台任务完成
 
 **主进程 main.js：**
 
 ```js
-function sendToRenderer(win, channel, data) {
-  win.webContents.send(channel, data)
-}
-
-// 示例：推送下载进度
+// 推送下载进度
 ipcMain.handle('start-download', async (event, url) => {
   const win = BrowserWindow.fromWebContents(event.sender)
 
-  // 模拟下载，推送进度
   for (let i = 0; i <= 100; i += 10) {
     await new Promise(r => setTimeout(r, 200))
-    sendToRenderer(win, 'download-progress', { percent: i })
+    win.webContents.send('download-progress', { percent: i })
   }
 
   return { success: true }
@@ -196,7 +143,9 @@ ipcMain.handle('start-download', async (event, url) => {
 ```js
 contextBridge.exposeInMainWorld('electronAPI', {
   startDownload: (url) => ipcRenderer.invoke('start-download', url),
-  onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (_e, data) => callback(data))
+  onDownloadProgress: (callback) => {
+    ipcRenderer.on('download-progress', (_e, data) => callback(data))
+  }
 })
 ```
 
@@ -212,17 +161,15 @@ window.electronAPI.onDownloadProgress((data) => {
 await window.electronAPI.startDownload('https://example.com/file.zip')
 ```
 
-## electron-vite 项目中的写法
+## electron-vite 项目结构
 
-如果你用 electron-vite 脚手架，项目结构一般是：
-
-```
+```text
 src/
-├── main/          主进程
+├── main/          ← 主进程
 │   └── index.ts
-├── preload/       预加载脚本
+├── preload/       ← 预加载脚本
 │   └── index.ts
-└── renderer/      渲染进程（Vue/React）
+└── renderer/      ← 渲染进程（Vue/React）
     └── src/
 ```
 
@@ -240,7 +187,7 @@ const api = {
 
 contextBridge.exposeInMainWorld('electronAPI', api)
 
-// 类型声明
+// 导出类型，给渲染进程用
 export type ElectronAPI = typeof api
 ```
 
@@ -255,10 +202,10 @@ ipcMain.handle('read-file', async (_event, filePath: string) => {
 })
 ```
 
-**在 Vue/React 组件中使用：**
+**Vue/React 组件中使用：**
 
 ```ts
-// 声明类型，获得 TS 提示
+// 声明类型，让 TS 有提示
 declare global {
   interface Window {
     electronAPI: ElectronAPI
@@ -272,11 +219,11 @@ window.electronAPI.onMessage((data) => {
 })
 ```
 
-## 踩坑提醒
+## 踩坑记录 ⚠️
 
-### 1. 监听器要记得清理
+### 1. 监听器要清理
 
-渲染进程中用 `ipcRenderer.on` 注册的监听器，组件销毁时要移除，否则会内存泄漏：
+`ipcRenderer.on` 注册的监听器，组件销毁时要移除，不然内存泄漏：
 
 ```js
 // preload 暴露清理方法
@@ -300,10 +247,10 @@ onUnmounted(() => {
 })
 ```
 
-### 2. 不要暴露整个 ipcRenderer
+### 2. 别暴露整个 ipcRenderer
 
 ```js
-// ❌ 危险！渲染进程可以调用任何 IPC 通道
+// ❌ 危险！渲染进程可以调任何 IPC 通道
 contextBridge.exposeInMainWorld('electronAPI', ipcRenderer)
 
 // ✅ 只暴露需要的方法
@@ -312,19 +259,19 @@ contextBridge.exposeInMainWorld('electronAPI', {
 })
 ```
 
-### 3. 不要用 sendSync
+### 3. 别用 sendSync
 
-`ipcRenderer.sendSync()` 会阻塞渲染进程，用户体验极差。永远用 `invoke` 代替。
+`ipcRenderer.sendSync()` 会阻塞整个渲染进程，页面卡死。永远用 `invoke` 代替。
 
 ### 4. handle 的错误处理
 
-`ipcMain.handle` 里抛出的错误会在 `ipcRenderer.invoke` 那边变成 rejected Promise：
+`ipcMain.handle` 里 throw 的错误，会在 `ipcRenderer.invoke` 那边变成 rejected Promise：
 
 ```js
 // 主进程
 ipcMain.handle('risky-operation', async () => {
   if (Math.random() > 0.5) {
-    throw new Error('操作失败')  // invoke 会收到 rejected Promise
+    throw new Error('操作失败')
   }
   return '成功'
 })
@@ -339,12 +286,18 @@ try {
 
 ## 速查表
 
-| 场景 | 渲染进程 | 主进程 | 是否等待返回 |
-|------|----------|--------|-------------|
-| 获取数据 | `invoke(channel, ...args)` | `handle(channel, handler)` | ✅ 等待 |
-| 发通知 | `send(channel, ...args)` | `on(channel, handler)` | ❌ 不等 |
-| 主进程推送 | `on(channel, callback)` | `webContents.send(channel, data)` | - |
-| ~~同步调用~~ | ~~`sendSync()`~~ | ~~`on()`~~ | ~~❌ 阻塞，别用~~ |
+| 我想干什么 | 渲染进程 | 主进程 | 要等结果吗 |
+| --- | --- | --- | --- |
+| 拿数据/执行操作 | `invoke(channel, args)` | `handle(channel, handler)` | ✅ 等 |
+| 发通知/触发操作 | `send(channel, args)` | `on(channel, handler)` | ❌ 不等 |
+| 主进程推消息过来 | `on(channel, callback)` | `webContents.send(channel, data)` | - |
+
+## 记忆口诀
+
+1. **双向通信用 invoke/handle**：渲染进程要拿数据，主进程处理后返回
+2. **单向发信用 send/on**：只管发，不等回复
+3. **主进程反向推用 webContents.send**：主进程主动通知渲染进程
+4. **安全第一用 preload**：别暴露整个 ipcRenderer，只暴露需要的方法
 
 ## 参考
 
