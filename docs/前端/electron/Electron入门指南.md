@@ -38,7 +38,7 @@
 | --- | --- | --- | --- |
 | 拿数据/执行操作 | `ipcMain.handle(ch, fn)` | `ipcRenderer.invoke(ch, args)` | ✅ 等 |
 | 发通知/触发操作 | `ipcMain.on(ch, fn)` | `ipcRenderer.send(ch, args)` | ❌ 不等 |
-| 主进程主动推消息 | `win.webContents.send(ch, data)` | `ipcRenderer.on(ch, callback)` | - |
+| 主进程推消息 | `win.webContents.send()` | `ipcRenderer.on(ch, cb)` | - |
 
 ## 快速开始
 
