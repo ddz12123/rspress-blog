@@ -165,21 +165,53 @@ env:
 
 ## 六、版本号与 tag 必须对应
 
-electron-builder 是按 `package.json` 里的 `version` 决定往哪个 Release 传的（tag 名 = `v` + version）。所以规矩是：
+electron-builder 是按 `package.json` 里的 `version` 决定往哪个 Release 传的（tag 名 = `v` + version）。所以规矩是：**先改版本号，再打对应的 tag，两者必须一致。**
 
-**先改版本号，再打对应的 tag。**
+改版本号有两种方式，先理解 `npm version` 到底做了什么，就不会搞混了。
+
+### 方式 A：`npm version` 一条命令搞定（推荐）
+
+在**工作区干净**（没有任何未提交改动）的前提下运行：
 
 ```bash
-# 1. 把 package.json 的 version 改成 x.y.z
-#    可手动改，或用下面命令自动改并打 tag
 npm version x.y.z
+```
 
-# 2. 推代码和 tag
+它会一口气做三件事：
+
+1. 改 `package.json`（和 `package-lock.json`）里的 `version`
+2. **自动 `git commit`** 这次改动（提交信息默认就是 `x.y.z`）
+3. **自动 `git tag vx.y.z`**（`v` 前缀是 npm 默认加的，正好对上工作流的 `v*`）
+
+⚠️ **前提是工作区必须干净**。只要还有任何没提交的改动，它会直接报 `Git working directory not clean` 并拒绝执行——所以要**先把代码改动都提交完，再跑 `npm version`**。
+
+跑完后，commit 和 tag 都还只在本地，要**推两次**：
+
+```bash
+git push                 # 推 npm version 刚生成的那条版本提交
+git push origin vx.y.z   # 推 tag —— 这一步才真正触发打包
+```
+
+> 为什么要推两次？`git push origin vx.y.z` 只推 tag，不会连带把那条 commit 推上去；漏了前面的 `git push`，远程分支就少了这次版本提交。
+
+### 方式 B：只改文件、自己控制提交
+
+如果你想把「版本号改动」和「别的代码改动」放进**同一个 commit**，用 `--no-git-tag-version` 让 npm **只改文件、不提交、不打 tag**：
+
+```bash
+npm version x.y.z --no-git-tag-version   # 只改 package.json，不 commit、不 tag
+git add .
+git commit -m "release: x.y.z"           # 自己提交（可连同其它改动一起）
 git push
+git tag vx.y.z
 git push origin vx.y.z
 ```
 
-如果 tag 和 `version` 对不上（比如 `version` 是 `1.0.0` 却推了 `v2.0.0` 的 tag），electron-builder 仍会往 `v1.0.0` 的 Release 传，导致「tag 和产物对不上」。务必保持一致。
+> 直接手动编辑 `package.json` 的 `version` 字段，效果和方式 B 一样——改完文件后自己 commit、打 tag、推送。
+
+**特例**：如果 `package.json` 里的 `version` **已经是目标值**了，`npm version x.y.z` 会报 `Version not changed` 拒绝执行。这时跳过 `npm version`，提交完直接手动打 tag 即可：`git tag vx.y.z && git push origin vx.y.z`。
+
+最后再强调一遍：如果 tag 和 `version` 对不上（比如 `version` 是 `1.0.0` 却推了 `v2.0.0` 的 tag），electron-builder 仍会往 `v1.0.0` 的 Release 传，导致「tag 和产物对不上」。务必保持一致。
 
 ## 七、草稿 Release vs 直接发布
 
@@ -205,24 +237,53 @@ publish:
 
 代码签名（Windows 证书 / macOS 开发者证书）需要把证书和密码放进仓库 Secrets 再在工作流里引用，属于进阶话题，开源项目初期通常先发未签名版本。
 
-## 九、完整发布操作
+## 九、完整发布操作（两种方式任选其一）
+
+两种方式殊途同归，最终都是「远程有对应的 commit + 一个 vx.y.z 的 tag」，剩下的打包发布全由 CI 完成。选一种你顺手的即可。
+
+### 方式 A：先提交干净，再用 `npm version` 自动打 tag
+
+版本 bump 是**独立的一条提交**（信息就是版本号），历史清爽。缺点是跑 `npm version` 前必须先把工作区清空。
 
 ```bash
 # 0. 确认 electron-builder.yml 的 publish 已配好 github，且 remote 指向目标仓库
 
-# 1. 提交工作流文件和其它改动
-git add .github/workflows/release.yml
+# 1. 先把【所有】改动都提交干净（下一步 npm version 要求工作区必须干净）
+git add .
 git commit -m "ci: 新增多平台发布工作流"
 git push
 
-# 2. 更新版本号并打 tag（npm version 会自动改 package.json 并创建 tag）
+# 2. 改版本号 + 打 tag（工作区已干净，npm version 自动改 package.json、commit、打 tag vx.y.z）
 npm version x.y.z
 
-# 3. 推送 tag，触发发包
+# 3. 把【版本提交】和【tag】都推上去（推 tag 这一步才真正触发打包）
+git push                 # 推 npm version 生成的版本提交
+git push origin vx.y.z   # 推 tag
+```
+
+### 方式 B：把版本号和改动合进一个提交，再手动打 tag
+
+版本 bump 和功能代码放在**同一个 commit** 里，适合「改完功能顺手发版」的场景。不要求工作区提前干净。
+
+```bash
+# 0. 确认 electron-builder.yml 的 publish 已配好 github，且 remote 指向目标仓库
+
+# 1. 只改版本号，不自动 commit / tag
+npm version x.y.z --no-git-tag-version
+
+# 2. 把版本号连同其它改动一起提交
+git add .
+git commit -m "release: x.y.z"
+git push
+
+# 3. 手动打 tag 并推送（推 tag 这一步才真正触发打包）
+git tag vx.y.z
 git push origin vx.y.z
 ```
 
-推完 tag 后：
+> 关键差异只在「版本提交」这一步：方式 A 让 `npm version` 自动单独提交 + 打 tag（要求工作区干净）；方式 B 用 `--no-git-tag-version` 只改文件，提交和打 tag 都自己来（可与其它改动合并）。**两者都别漏了推送——commit 用 `git push`，tag 用 `git push origin vx.y.z`，缺一不可。**
+
+推完 tag 后（两种方式完全一样）：
 
 1. 打开仓库 **Actions** 页，看到三平台的构建任务在跑。
 2. 全部跑完后，进 **Releases** 页，会有一个草稿 Release，里面挂着各平台安装包。
@@ -235,6 +296,12 @@ git push origin vx.y.z
 
 **Q：`git push --tags` 会触发吗？**
 如果这次连带推送的 tag 里包含新的 `v*` tag，会触发——这是符合预期的。只要不打 `v` 开头的 tag 就不会。
+
+**Q：`npm version` 报 `Git working directory not clean` 怎么办？**
+说明还有改动没提交（你在用方式 A）。先 `git status` 看一眼，把所有改动 `git add . && git commit` 提交干净，再跑 `npm version`；或者改用方式 B 的 `--no-git-tag-version`。
+
+**Q：`npm version` 报 `Version not changed` 怎么办？**
+说明 `package.json` 的 `version` 已经是你要发的版本号了。跳过 `npm version`，直接手动打 tag：`git tag vx.y.z && git push origin vx.y.z`。
 
 **Q：某个平台失败了怎么办？**
 `fail-fast: false` 保证其它平台继续跑。修好后重新推 tag（需先删除旧 tag 或用新版本号），或在 Actions 页面点 **Re-run**。
